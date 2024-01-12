@@ -8,6 +8,10 @@ NotificationListener<InfosReporterNotification>(
     },
     child: InfosReporter(
         child: Container(
+        /// The UniqueKey is needed here to rebuild this
+        /// Container and notify [InfosReporter] that
+        /// something changed 
+        key: UniqueKey(),
         width: _size,
         height: _size,
         color: Colors.red,
