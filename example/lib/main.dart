@@ -13,7 +13,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  double _size = 100;
+  double size = 100;
   Offset position = Offset.zero;
 
   @override
@@ -30,18 +30,22 @@ class _MainAppState extends State<MainApp> {
                   debugPrint('position: ${notification.position}   size: ${notification.size}');
                   return true;
                 },
-                child: GestureDetector(
-                  onTap: () => setState(() => _size = _size == 100 ? 200 : 100),
-                  onPanUpdate: (details) {
-                    position += details.delta;
-                    setState(() {});
-                  },
-                  child: InfosReporter(
+                child: InfosReporter(
+                  child: GestureDetector(
+                    onTap: () => setState(() => size = size == 100 ? 200 : 100),
+                    onPanUpdate: (details) {
+                      position += details.delta;
+                      setState(() {});
+                    },
                     child: AnimatedSize(
                       duration: const Duration(milliseconds: 250),
                       child: Container(
-                        width: _size,
-                        height: _size,
+                        /// The UniqueKey is needed here to rebuild this
+                        /// Container and notify [InfosReporter] that
+                        /// something changed 
+                        key: UniqueKey(),
+                        width: size,
+                        height: size,
                         color: Colors.red,
                       ),
                     ),

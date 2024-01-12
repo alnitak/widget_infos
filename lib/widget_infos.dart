@@ -11,7 +11,7 @@ class InfosReporterNotification extends Notification {
   final Size size;
 }
 
-/// A widget that reports its child's size to the notification system.
+/// A widget that reports its child's size & position to the notification system.
 class InfosReporter extends SingleChildRenderObjectWidget {
   const InfosReporter({super.key, required super.child});
 
@@ -20,13 +20,6 @@ class InfosReporter extends SingleChildRenderObjectWidget {
     return RenderInfosReporter(context: context);
   }
 
-  @override
-  void updateRenderObject(
-    BuildContext context,
-    RenderInfosReporter renderObject,
-  ) {
-    /// Update any additional properties added later.
-  }
 }
 
 class RenderInfosReporter extends RenderProxyBox {
@@ -40,10 +33,10 @@ class RenderInfosReporter extends RenderProxyBox {
   final BuildContext _context;
 
   /// The previous bounds of the child.
-  Offset? _oldPosition;
+  Offset? oldPosition;
 
   /// The previous size of the child.
-  Size? _oldSize;
+  Size? oldSize;
 
   @override
   void performLayout() {
@@ -54,8 +47,8 @@ class RenderInfosReporter extends RenderProxyBox {
     final newSize = child!.size;
 
     /// Only dispatch the notification if the size has changed.
-    if (_oldPosition != newPosition || _oldSize != newSize) {
-      _oldPosition = newPosition;
+    if (oldPosition != newPosition || oldSize != newSize) {
+      oldPosition = newPosition;
       InfosReporterNotification(newPosition, newSize).dispatch(_context);
     }
   }
